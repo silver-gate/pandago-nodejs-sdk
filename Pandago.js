@@ -34,7 +34,7 @@ module.exports = class Pandago {
     const { accessTokenExpiredAt } = this;
 
     if (!accessTokenExpiredAt || (accessTokenExpiredAt && accessTokenExpiredAt >= Date.now())) {
-      await this.getAccessToken();
+      await this._getAccessToken();
     }
 
     const { accessToken } = this;
@@ -46,7 +46,7 @@ module.exports = class Pandago {
     };
   }
 
-  async getAccessToken(scope = 'pandago.api.sg.*') {
+  async _getAccessToken(scope = 'pandago.api.sg.*') {
     const { clientId, authUrl } = this;
     const signedJwtToken = this._getSignedJwtToken();
 
