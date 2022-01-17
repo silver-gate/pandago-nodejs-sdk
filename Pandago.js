@@ -150,4 +150,17 @@ module.exports = class Pandago {
     const { data } = await axios(options);
     return data;
   }
+
+  async callback(event) {
+    const { apiUrl } = this;
+    const options = {
+      method: 'POST',
+      url: `${apiUrl}/sg/api/v1/callback`,
+      data: event,
+      headers: await this._getApiHeaders(),
+    };
+
+    const { data } = await axios(options);
+    return data;
+  }
 };
