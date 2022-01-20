@@ -9,7 +9,7 @@ module.exports = class Pandago {
       'https://sts-st.deliveryhero.io' :
       'https://sts.deliveryhero.io';
     this.apiUrl = env === 'sandbox' ?
-      'https://private-anon-3581b0e218-pandago.apiary-mock.com' :
+      'https://pandago-api-sandbox.deliveryhero.io' :
       'https://pandago-api-sandbox.deliveryhero.io';
     this.clientId = clientId;
     this.keyId = keyId;
