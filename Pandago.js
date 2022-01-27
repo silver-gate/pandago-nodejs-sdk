@@ -3,17 +3,26 @@ const qs = require('qs');
 const nJwt = require('njwt');
 
 module.exports = class Pandago {
-  constructor({ env, clientId, keyId, privateKey }) {
+  constructor({
+    env = 'sandbox',
+    countryCode = 'tw',
+    version = 'v1',
+    clientId,
+    keyId,
+    privateKey,
+    scope = 'pandago.api.sg.*',
+  }) {
     this.env = env;
     this.authUrl = env === 'sandbox' ?
       'https://sts-st.deliveryhero.io' :
       'https://sts.deliveryhero.io';
     this.apiUrl = env === 'sandbox' ?
-      'https://pandago-api-sandbox.deliveryhero.io' :
-      'https://pandago-api-sandbox.deliveryhero.io';
+      `https://pandago-api-sandbox.deliveryhero.io/sg/api/${version}` :
+      `https://pandago-api-apse.deliveryhero.io/${countryCode}/api/${version}`;
     this.clientId = clientId;
     this.keyId = keyId;
     this.privateKey = privateKey;
+    this.scope = scope;
   }
 
   _getSignedJwtToken() {
@@ -46,8 +55,8 @@ module.exports = class Pandago {
     };
   }
 
-  async _getAccessToken(scope = 'pandago.api.sg.*') {
-    const { clientId, authUrl } = this;
+  async _getAccessToken() {
+    const { clientId, authUrl, scope } = this;
     const signedJwtToken = this._getSignedJwtToken();
 
     const options = {
@@ -74,7 +83,7 @@ module.exports = class Pandago {
     const { apiUrl } = this;
     const options = {
       method: 'POST',
-      url: `${apiUrl}/sg/api/v1/orders/fee`,
+      url: `${apiUrl}/orders/fee`,
       data: order,
       headers: await this._getApiHeaders(),
     };
@@ -87,7 +96,7 @@ module.exports = class Pandago {
     const { apiUrl } = this;
     const options = {
       method: 'POST',
-      url: `${apiUrl}/sg/api/v1/orders/time`,
+      url: `${apiUrl}/orders/time`,
       data: order,
       headers: await this._getApiHeaders(),
     };
@@ -100,7 +109,7 @@ module.exports = class Pandago {
     const { apiUrl } = this;
     const options = {
       method: 'POST',
-      url: `${apiUrl}/sg/api/v1/orders`,
+      url: `${apiUrl}/orders`,
       data: order,
       headers: await this._getApiHeaders(),
     };
@@ -113,7 +122,7 @@ module.exports = class Pandago {
     const { apiUrl } = this;
     const options = {
       method: 'GET',
-      url: `${apiUrl}/sg/api/v1/orders/${orderId}`,
+      url: `${apiUrl}/orders/${orderId}`,
       headers: await this._getApiHeaders(),
     };
 
@@ -128,7 +137,7 @@ module.exports = class Pandago {
     const { apiUrl } = this;
     const options = {
       method: 'DELETE',
-      url: `${apiUrl}/sg/api/v1/orders/${orderId}`,
+      url: `${apiUrl}/orders/${orderId}`,
       data: {
         reason,
       },
@@ -143,7 +152,7 @@ module.exports = class Pandago {
     const { apiUrl } = this;
     const options = {
       method: 'GET',
-      url: `${apiUrl}/sg/api/v1/orders/${orderId}/coordinates`,
+      url: `${apiUrl}/orders/${orderId}/coordinates`,
       headers: await this._getApiHeaders(),
     };
 
@@ -155,7 +164,7 @@ module.exports = class Pandago {
     const { apiUrl } = this;
     const options = {
       method: 'POST',
-      url: `${apiUrl}/sg/api/v1/callback`,
+      url: `${apiUrl}/callback`,
       data: event,
       headers: await this._getApiHeaders(),
     };
