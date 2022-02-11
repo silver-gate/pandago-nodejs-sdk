@@ -172,4 +172,29 @@ module.exports = class Pandago {
     const { data } = await axios(options);
     return data;
   }
+
+  async createOrUpdateOutlet(id, outlet) {
+    const { apiUrl } = this;
+    const options = {
+      method: 'PUT',
+      url: `${apiUrl}/outlets/${id}`,
+      data: outlet,
+      headers: await this._getApiHeaders(),
+    };
+
+    const { data } = await axios(options);
+    return data;
+  }
+
+  async getOutlet(id) {
+    const { apiUrl } = this;
+    const options = {
+      method: 'GET',
+      url: `${apiUrl}/outlets/${id}`,
+      headers: await this._getApiHeaders(),
+    };
+
+    const { data } = await axios(options);
+    return data;
+  }
 };
