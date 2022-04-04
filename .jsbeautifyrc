@@ -8,6 +8,7 @@
     "indent_with_tabs": false,
     "jslint_happy": true,
     "e4x": true,
-    "keep_array_indentation": true
+    "keep_array_indentation": true,
+    "operator_position": "preserve-newline"
   }
 }
