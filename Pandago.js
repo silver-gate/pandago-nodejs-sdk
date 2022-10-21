@@ -195,6 +195,17 @@ module.exports = class Pandago {
     return this.request(options);
   }
 
+  async getOrderProof(orderId) {
+    const { apiUrl } = this;
+    const options = {
+      method: 'GET',
+      url: `${apiUrl}/orders/proof_of_delivery/${orderId}`,
+      headers: await this.getApiHeaders(),
+    };
+
+    return this.request(options);
+  }
+
   async callback(event) {
     const { apiUrl } = this;
     const options = {
